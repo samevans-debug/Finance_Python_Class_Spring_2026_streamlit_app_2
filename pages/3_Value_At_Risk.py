@@ -246,7 +246,7 @@ if abs(total_weight - 100.0) < 0.01:
 
     with st.container(border=True):
         st.subheader("VaR Summary Table",
-            help="All values represent the maximum expected loss at each confidence level over a 30-day horizon.")
+            help="All values represent the maximum expected loss at each confidence level over a 30-day horizon _under normal conditions_.")
 
         summary_data = {
             "Confidence Level": [f"{int(cl * 100)}%" for cl in threshold_levels],

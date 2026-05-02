@@ -31,7 +31,7 @@ api_key = st.secrets["FRED_API_KEY"]
 st.title(f"Stock Overview", help= "Stock information from YFinance package.")
 
 #Importing data based on Ticker user selects
-years = st.sidebar.number_input("Years", min_value =1, max_value= 200, value= 3, )
+years = st.sidebar.number_input("Time Horizon", min_value =1, max_value= 200, value= 3, )
 ticker = st.sidebar.text_input("Enter Stock Ticker", value="AAPL")
 
 

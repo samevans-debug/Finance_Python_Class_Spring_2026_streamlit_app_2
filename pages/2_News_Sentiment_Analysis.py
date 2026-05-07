@@ -2,14 +2,15 @@ import streamlit as st
 import requests
 from bs4 import BeautifulSoup
 from urllib.parse import urljoin
-from nltk.sentiment.vader import SentimentIntensityAnalyzer
 from requests import Timeout, RequestException
 from trafilatura import extract
 import pandas as pd
 import plotly.graph_objects as go
+import statistics
 import nltk
 nltk.download('vader_lexicon', quiet=True) #this is for reading the articles' text
-
+nltk.download('punkt_tab', quiet=True)
+from nltk.sentiment.vader import SentimentIntensityAnalyzer
 
 # Page setup instuctions
 api_key = st.secrets["FRED_API_KEY"]
@@ -86,8 +87,12 @@ def get_sentiment(ticker):
             if response.status_code == 200:
                 article_text = extract(response.text)
                 if article_text:
-                    vs = sentiment.polarity_scores(article_text)
-                    compound_scores.append(vs['compound'])
+                    article_sentences = nltk.sent_tokenize(article_text)
+                    article_average_compound = []
+                    for s in article_sentences:
+                        scores = sentiment.polarity_scores(article_text)
+                        article_average_compound.append(scores['compound'])
+                    compound_scores.append(statistics.mean(article_average_compound))
                 else:
                     compound_scores.append(None)
             else:
